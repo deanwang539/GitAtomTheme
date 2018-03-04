@@ -1,2 +1,5 @@
+# Mac finder artifacts
+.DS_Store
+
 # Compiled files
 *.pyc
