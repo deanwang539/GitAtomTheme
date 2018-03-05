@@ -1,4 +1,4 @@
-from git import Repo
-repo = Repo()
-print repo.index.diff("HEAD")
-print repo.index.diff(None)
+from modules import is_work_tree, GitRepo
+
+# path for windows
+path = "C:/Study/Projects/GitAtomTheme"
