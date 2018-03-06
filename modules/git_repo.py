@@ -1,4 +1,10 @@
-from git import Repo
+import os
+import sys
+
+# Append module directory on PYTHONPATH
+sys.path.append(os.path.join(os.path.dirname(__file__), os.pardir))
+
+from .git import Repo
 
 """GitRepo class creats repo object that represent the local git data tree
 
