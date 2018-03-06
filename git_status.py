@@ -17,7 +17,9 @@ except ImportError:
         "GitAtomTheme failed to reload some of its modules.\n"
         "Please restart Sublime Text!")
 
-repo = GitRepo("C:/Users/Dean/AppData/Roaming/Sublime Text 3/Packages/GitAtomTheme")
+#repo = GitRepo("C:/Users/Dean/AppData/Roaming/Sublime Text 3/Packages/GitAtomTheme")
+repo = GitRepo("/Users/Hao/Library/Application Support/Sublime Text 3/Packages/GitStatus")
+
 # print(repo.is_clean())
 # print(repo.add_del)
 # print(repo.modified)

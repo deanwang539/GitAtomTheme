@@ -1,2 +1,4 @@
-# GitAtomTheme
-This is a ongoing atom style sublime plugin!
+# GitStatus
+***
+
+GitStatus is an ongoing simple plugin by monitoring changed files of the project.
