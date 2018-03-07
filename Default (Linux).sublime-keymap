@@ -1,0 +1,3 @@
+[
+    { "keys": ["alt+up"], "command": "see_status" },
+]

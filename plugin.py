@@ -26,12 +26,25 @@ class GitStatusCommand():
 	def run(self):
 		# Clears the named status.
 		self.view.erase_status("info")
-
 		#The value will be displayed in the status bar, in a comma separated list of all status values, ordered by key.
 		if self.my_repo.is_clean():
 			self.view.set_status("info", self.my_repo.branch + ": Clean")
 		else:
 			self.view.set_status("info", self.my_repo.branch + ": Dirty")
+
+
+class SeeStatusCommand(sublime_plugin.WindowCommand):
+	# shortcuts
+	def run(self):
+		self.my_repo = get_repo()
+		git_status_info = self.my_repo.get_git_status()
+		msg = status_manipulate(git_status_info)
+		sublime.message_dialog(msg)
+
+		# New view
+		#print (git_status_info_status_manipulated)
+		#createdView = sublime.active_window().new_file()
+		#createdView.run_command("insert",{"characters": self.repo.get_git_status()})
 
 
 class StatusBarHandler(sublime_plugin.EventListener):
@@ -51,15 +64,6 @@ class StatusBarHandler(sublime_plugin.EventListener):
 	def on_post_save_async(self, view):
 	# Called after a view has been saved.
 		self.check()
-		self.my_repo = get_repo()
-		git_status_info = self.my_repo.get_git_status()
-		msg = status_manipulate(git_status_info)
-		sublime.message_dialog(msg)
-
-		# New view
-		#print (git_status_info_status_manipulated)
-		#createdView = sublime.active_window().new_file()
-		#createdView.run_command("insert",{"characters": self.repo.get_git_status()})
 
 
 def get_repo():
