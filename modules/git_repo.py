@@ -19,8 +19,17 @@ GitRepo functions:
 class GitRepo(object):
 	def __init__(self, path):
 		self.repo = Repo(path)
+		self.branch = "master"
 		self.add_del = set()
 		self.modified = set()
+
+	def get_current_branch(self):
+		"""Return current branch
+
+		Returns:
+		    str: current branch
+		"""
+		return self.repo.active_branch.name
 
 	def get_untracked_files(self):
 		"""Return untracked files(newly added or deleted)
@@ -56,13 +65,16 @@ class GitRepo(object):
 		untracked_files = self.get_untracked_files()
 		unstaged_files = self.get_unstaged_files()
 		staged_files = self.get_staged_files()
+		current_branch = self.get_current_branch()
 
 		# if repo is clean
 		if not (untracked_files or unstaged_files or staged_files):
 			self.add_del = set()
 			self.modified = set()
+			self.branch = current_branch
 			return True
 
+		self.branch = current_branch
 		self.add_del.update(untracked_files)
 		self.modified.update(unstaged_files)
 		return False

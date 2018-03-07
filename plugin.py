@@ -40,9 +40,9 @@ class GitStatusCommand(sublime_plugin.WindowCommand):
 
 		#The value will be displayed in the status bar, in a comma separated list of all status values, ordered by key.
 		if self.repo.is_clean():
-			self.view.set_status("info", "git: Clean")
+			self.view.set_status("info", self.repo.branch + ": Clean")
 		else:
-			self.view.set_status("info", "git: Dirty")
+			self.view.set_status("info", self.repo.branch + ": Dirty")
 
 
 class StatusBarHandler(sublime_plugin.EventListener):
