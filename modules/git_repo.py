@@ -20,8 +20,8 @@ class GitRepo(object):
 	def __init__(self, path):
 		self.repo = Repo(path)
 		self.branch = "master"
-		self.add_del = set()
-		self.modified = set()
+		# self.add_del = set()
+		# self.modified = set()
 
 	def get_current_branch(self):
 		"""Return current branch
@@ -55,6 +55,9 @@ class GitRepo(object):
 		"""
 		return [item.a_path for item in self.repo.index.diff("HEAD")]
 
+	def get_git_status(self):
+		return self.repo.git.status()
+
 	def is_clean(self):
 		"""Return if git repo is clean
 		update add_del and modified sets
@@ -69,12 +72,12 @@ class GitRepo(object):
 
 		# if repo is clean
 		if not (untracked_files or unstaged_files or staged_files):
-			self.add_del = set()
-			self.modified = set()
+			# self.add_del = set()
+			# self.modified = set()
 			self.branch = current_branch
 			return True
 
 		self.branch = current_branch
-		self.add_del.update(untracked_files)
-		self.modified.update(unstaged_files)
+		# self.add_del.update(untracked_files)
+		# self.modified.update(unstaged_files)
 		return False
