@@ -16,7 +16,6 @@ except ImportError:
         "Please restart Sublime Text!")
 
 
-
 class GitStatusCommand(sublime_plugin.WindowCommand):
 	def __init__(self, view):
 		self.view = view
@@ -45,6 +44,7 @@ class GitStatusCommand(sublime_plugin.WindowCommand):
 			self.view.set_status("info", self.repo.branch + ": Dirty")
 
 
+
 class StatusBarHandler(sublime_plugin.EventListener):
 	def check(self):
 		git_status = GitStatusCommand(sublime.active_window().active_view())
@@ -61,3 +61,6 @@ class StatusBarHandler(sublime_plugin.EventListener):
 	def on_post_save_async(self, view):
 	# Called after a view has been saved.
 		self.check()
+		# New view
+		createdView = sublime.active_window().new_file()
+		createdView.run_command("insert",{"characters": "Hello"})
