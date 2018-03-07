@@ -25,8 +25,10 @@ def status_manipulate(msg):
 			# collect last one
 				if deleted_tag in mod_msg[i]:
 					modified_files.append(mod_msg[i].split(deleted_tag)[0].strip())
-				else:
+				elif added_tag in mod_msg[i]:
 					modified_files.append(mod_msg[i].split(added_tag)[0].strip())
+				else:
+					modified_files.append(mod_msg[i].split(end_tag)[0].strip())
 
 				msg = mod_msg[i]
 
@@ -59,6 +61,9 @@ def status_manipulate(msg):
 
 
 def handle_message_dialog(m_mod, m_del, m_add):
+	print (m_mod)
+	print (m_del)
+	print (m_add)
 
 	message = 'Git Status:\n\n'
 	if len(m_mod) != 0:
@@ -75,6 +80,9 @@ def handle_message_dialog(m_mod, m_del, m_add):
 		message = message + "\nuntracked:\n"
 	for i in range(len(m_add)):
 		message = message + '\t' + m_add[i] + '\n'
+
+	if len(m_mod) == 0 and len(m_del) == 0 and len(m_add) == 0:
+		message = message + 'nothing to commit, working tree clean'
 
 	return message
 
