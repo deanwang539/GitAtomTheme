@@ -50,18 +50,14 @@ class StatusBarHandler(sublime_plugin.EventListener):
 		git_status = GitStatusCommand(sublime.active_window().active_view())
 		git_status.run()
 
-	def on_new(self, view):
-		# Called when a new buffer is created.
+	def on_activated_async(self, view):
+	# Called when a view gains input focus.
 		self.check()
 
-	def on_clone(self, view):
+	def on_clone_async(self, view):
 	# Called when a view is cloned from an existing one.
 		self.check()
 
-	def on_post_save(self, view):
+	def on_post_save_async(self, view):
 	# Called after a view has been saved.
-		self.check()
-
-	def on_activated(self, view):
-	# Called when a view gains input focus.
 		self.check()
