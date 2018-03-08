@@ -69,6 +69,7 @@ class StatusBarHandler(sublime_plugin.EventListener):
 
 def get_repo():
 	# Init repo object
+	repo = None
 	path = os.path.normpath(get_active_project_path())
 	if is_work_tree(path):
 		repo = GitRepo(path)

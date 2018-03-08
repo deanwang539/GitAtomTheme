@@ -74,6 +74,7 @@ class GitRepo(object):
 		unstaged_files = self.get_unstaged_files()
 		staged_files = self.get_staged_files()
 		current_branch = self.get_current_branch()
+		print(not(self.repo.untracked_files or len(self.repo.index.diff(None)) or len(self.repo.index.diff("HEAD"))))
 
 		# if repo is clean
 		if not (untracked_files or unstaged_files or staged_files):
