@@ -85,6 +85,8 @@ def status_manipulate(msg):
 def handle_message_dialog(m_unm, m_mod, m_del, m_add):
 
 	message = 'Git Status:\n'
+	is_clean = False
+
 	if len(m_unm) != 0:
 		message = message + "\nunmerged:\n"
 	for i in range(len(m_unm)):
@@ -106,6 +108,7 @@ def handle_message_dialog(m_unm, m_mod, m_del, m_add):
 		message = message + '\t' + m_add[i] + '\n'
 
 	if len(m_unm) == 0 and len(m_mod) == 0 and len(m_del) == 0 and len(m_add) == 0:
-		message = message + 'nothing to commit, working tree clean'
+		message = message + '\nnothing to commit, working tree clean\n'
+		is_clean = True
 
-	return message
+	return (message, is_clean)

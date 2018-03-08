@@ -29,7 +29,12 @@ class GitRepo(object):
 		Returns:
 		    str: current branch
 		"""
-		return self.repo.active_branch.name
+		active_branch = "Detached"
+		try:
+			active_branch = self.repo.active_branch.name
+		except:
+			pass
+		return active_branch
 
 	def get_untracked_files(self):
 		"""Return untracked files(newly added or deleted)
@@ -74,7 +79,6 @@ class GitRepo(object):
 		unstaged_files = self.get_unstaged_files()
 		staged_files = self.get_staged_files()
 		current_branch = self.get_current_branch()
-		print(not(self.repo.untracked_files or len(self.repo.index.diff(None)) or len(self.repo.index.diff("HEAD"))))
 
 		# if repo is clean
 		if not (untracked_files or unstaged_files or staged_files):
