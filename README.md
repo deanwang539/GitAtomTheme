@@ -14,6 +14,4 @@ Git Status provides three ways to show additional git status such as list of mod
   
 ### Acknowledgements
 
-This package contains:
-
-[GitPython](https://github.com/gitpython-developers/GitPython) and its dependencies.
+This package contains [GitPython](https://github.com/gitpython-developers/GitPython) and its dependencies.
