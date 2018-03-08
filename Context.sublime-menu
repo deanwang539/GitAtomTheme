@@ -1,0 +1,7 @@
+[
+    {
+        "caption": "Git Status",
+        "id": "git_status",
+        "command": "see_status"
+    }
+]

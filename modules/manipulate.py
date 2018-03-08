@@ -1,5 +1,6 @@
-
-''' git status info manipulate'''
+"""
+git status info manipulate
+"""
 
 def status_manipulate(msg):
 
@@ -26,15 +27,15 @@ def status_manipulate(msg):
 			elif i == len(unm_msg) - 1:
 			# collect last one
 				if modified_tag in unm_msg[i]:
-					unmerged_files.append(mod_msg[i].split(modified_tag)[0].strip())
-				elif deleted_tag in mod_msg[i]:
-					unmerged_files.append(mod_msg[i].split(deleted_tag)[0].strip())
-				elif added_tag in mod_msg[i]:
-					unmerged_files.append(mod_msg[i].split(added_tag)[0].strip())
+					unmerged_files.append(unm_msg[i].split(modified_tag)[0].strip())
+				elif deleted_tag in unm_msg[i]:
+					unmerged_files.append(unm_msg[i].split(deleted_tag)[0].strip())
+				elif added_tag in unm_msg[i]:
+					unmerged_files.append(unm_msg[i].split(added_tag)[0].strip())
 				else:
-					unmerged_files.append(mod_msg[i].split(end_tag)[0].strip())
+					unmerged_files.append(unm_msg[i].split(end_tag)[0].strip())
 
-				msg = mod_msg[i]
+				msg = unm_msg[i]
 
 	if modified_tag in msg:
 	# collect modified files
@@ -85,7 +86,7 @@ def handle_message_dialog(m_unm, m_mod, m_del, m_add):
 
 	message = 'Git Status:\n'
 	if len(m_unm) != 0:
-		message = message + "\nunMerged:\n"
+		message = message + "\nunmerged:\n"
 	for i in range(len(m_unm)):
 		message = message + '\t' + m_unm[i] + '\n'
 
@@ -100,7 +101,7 @@ def handle_message_dialog(m_unm, m_mod, m_del, m_add):
 		message = message + '\t' + m_del[i] + '\n'
 
 	if len(m_add) != 0:
-		message = message + "\nunTracked:\n"
+		message = message + "\nuntracked:\n"
 	for i in range(len(m_add)):
 		message = message + '\t' + m_add[i] + '\n'
 
@@ -108,4 +109,3 @@ def handle_message_dialog(m_unm, m_mod, m_del, m_add):
 		message = message + 'nothing to commit, working tree clean'
 
 	return message
-

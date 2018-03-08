@@ -8,7 +8,7 @@ import sys
 # Append module directory on PYTHONPATH
 sys.path.append(os.path.join(os.path.dirname(__file__), "modules"))
 try:
-	from .modules import is_work_tree, get_active_project_path, GitRepo, status_manipulate, handle_message_dialog
+	from .modules import is_work_tree, get_active_project_path, GitRepo, status_manipulate
 except ImportError:
     # Failed to import at least one module.
     # This can happen after upgrade due to internal structure changes.
@@ -16,8 +16,8 @@ except ImportError:
         "GitStatus failed to reload some of its modules.\n"
         "Please restart Sublime Text!")
 
-class GitStatusCommand():
 
+class GitStatusCommand():
 	def __init__(self):
 		self.view = sublime.active_window().active_view()
 		self.my_repo = get_repo()
@@ -42,7 +42,6 @@ class SeeStatusCommand(sublime_plugin.WindowCommand):
 
 
 class StatusBarHandler(sublime_plugin.EventListener):
-
 	def check(self):
 		git_status = GitStatusCommand()
 		git_status.run()
@@ -51,8 +50,16 @@ class StatusBarHandler(sublime_plugin.EventListener):
 	# Called when a view gains input focus.
 		self.check()
 
-	def on_clone_async(self, view):
-	# Called when a view is cloned from an existing one.
+	# def on_clone_async(self, view):
+	# # Called when a view is cloned from an existing one.
+	# 	self.check()
+
+	# def on_load_async(self, view):
+	# 	# Called when the file is finished loading.
+	# 	self.check()
+
+	def on_new_async(self, view):
+		# Called when a new buffer is created.
 		self.check()
 
 	def on_post_save_async(self, view):
@@ -61,11 +68,23 @@ class StatusBarHandler(sublime_plugin.EventListener):
 
 
 def get_repo():
-
-	repo = None
+	# Init repo object
 	path = os.path.normpath(get_active_project_path())
 	if is_work_tree(path):
 		repo = GitRepo(path)
 	return repo
 
 
+def plugin_loaded():
+	# Show initital status
+	view = sublime.active_window().active_view()
+	my_repo = get_repo()
+
+	# Clears the named status.
+	view.erase_status("info")
+
+	#The value will be displayed in the status bar, in a comma separated list of all status values, ordered by key.
+	if my_repo.is_clean():
+		view.set_status("info", my_repo.branch + ": Clean")
+	else:
+		view.set_status("info", my_repo.branch + ": Dirty")

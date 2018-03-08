@@ -1,0 +1,10 @@
+[
+{
+    "id": "edit",
+    "children":
+    [
+        {"id": "git_status"},
+        {"command": "see_status"}
+    ]
+}
+]

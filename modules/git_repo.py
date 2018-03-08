@@ -56,6 +56,11 @@ class GitRepo(object):
 		return [item.a_path for item in self.repo.index.diff("HEAD")]
 
 	def get_git_status(self):
+		"""Return git status
+
+		Returns:
+		    str: git status
+		"""
 		return self.repo.git.status()
 
 	def is_clean(self):
