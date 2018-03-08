@@ -16,7 +16,6 @@ except ImportError:
         "GitStatus failed to reload some of its modules.\n"
         "Please restart Sublime Text!")
 
-
 class GitStatusCommand():
 
 	def __init__(self):
@@ -40,11 +39,6 @@ class SeeStatusCommand(sublime_plugin.WindowCommand):
 		git_status_info = self.my_repo.get_git_status()
 		msg = status_manipulate(git_status_info)
 		sublime.message_dialog(msg)
-
-		# New view
-		#print (git_status_info_status_manipulated)
-		#createdView = sublime.active_window().new_file()
-		#createdView.run_command("insert",{"characters": self.repo.get_git_status()})
 
 
 class StatusBarHandler(sublime_plugin.EventListener):

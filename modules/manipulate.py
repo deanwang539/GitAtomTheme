@@ -3,10 +3,12 @@
 
 def status_manipulate(msg):
 
+	unmerged_files = []
 	modified_files = []
 	deleted_files = []
 	added_files = []
 
+	unmerged_tag = "both modified:"
 	modified_tag = "modified:"
 	deleted_tag = "deleted:"
 	added_tag = "Untracked files:"
@@ -14,6 +16,25 @@ def status_manipulate(msg):
 
 	#msg = msg.replace("\n", "")
 	msg = msg.replace("\t", " ")
+
+	if unmerged_tag in msg:
+	# collect unmerged files
+		unm_msg = msg.split(unmerged_tag)
+		for i in range(len(unm_msg)):
+			if i != 0 and i != len(unm_msg) - 1:
+				unmerged_files.append(unm_msg[i].strip())
+			elif i == len(unm_msg) - 1:
+			# collect last one
+				if modified_tag in unm_msg[i]:
+					unmerged_files.append(mod_msg[i].split(modified_tag)[0].strip())
+				elif deleted_tag in mod_msg[i]:
+					unmerged_files.append(mod_msg[i].split(deleted_tag)[0].strip())
+				elif added_tag in mod_msg[i]:
+					unmerged_files.append(mod_msg[i].split(added_tag)[0].strip())
+				else:
+					unmerged_files.append(mod_msg[i].split(end_tag)[0].strip())
+
+				msg = mod_msg[i]
 
 	if modified_tag in msg:
 	# collect modified files
@@ -56,18 +77,20 @@ def status_manipulate(msg):
 		for j in range(len(add_msg)):
 			added_files.append(add_msg[j].strip())
 
-	return handle_message_dialog(modified_files, deleted_files, added_files)
+	return handle_message_dialog(unmerged_files, modified_files, deleted_files, added_files)
 
 
 
-def handle_message_dialog(m_mod, m_del, m_add):
-	print (m_mod)
-	print (m_del)
-	print (m_add)
+def handle_message_dialog(m_unm, m_mod, m_del, m_add):
 
-	message = 'Git Status:\n\n'
+	message = 'Git Status:\n'
+	if len(m_unm) != 0:
+		message = message + "\nunMerged:\n"
+	for i in range(len(m_unm)):
+		message = message + '\t' + m_unm[i] + '\n'
+
 	if len(m_mod) != 0:
-		message = message + "modified:\n"
+		message = message + "\nmodified:\n"
 	for i in range(len(m_mod)):
 		message = message + '\t' + m_mod[i] + '\n'
 
@@ -77,11 +100,11 @@ def handle_message_dialog(m_mod, m_del, m_add):
 		message = message + '\t' + m_del[i] + '\n'
 
 	if len(m_add) != 0:
-		message = message + "\nuntracked:\n"
+		message = message + "\nunTracked:\n"
 	for i in range(len(m_add)):
 		message = message + '\t' + m_add[i] + '\n'
 
-	if len(m_mod) == 0 and len(m_del) == 0 and len(m_add) == 0:
+	if len(m_unm) == 0 and len(m_mod) == 0 and len(m_del) == 0 and len(m_add) == 0:
 		message = message + 'nothing to commit, working tree clean'
 
 	return message
