@@ -37,7 +37,7 @@ class SeeStatusCommand(sublime_plugin.WindowCommand):
 	# shortcuts
 	def run(self):
 		my_repo = get_repo()
-		git_status_info = self.my_repo.get_git_status()
+		git_status_info = my_repo.get_git_status()
 		msg = status_manipulate(git_status_info)[0]
 		sublime.message_dialog(msg)
 
