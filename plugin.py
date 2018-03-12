@@ -21,25 +21,30 @@ class GitStatusCommand():
 	def __init__(self):
 		self.view = sublime.active_window().active_view()
 		self.my_repo = get_repo()
-		self.is_clean = status_manipulate(self.my_repo.get_git_status())[1]
+		self.is_clean = status_manipulate(self.my_repo.get_git_status())[1] if self.my_repo else None
 
 	def run(self):
-		# Clears the named status.
-		self.view.erase_status("info")
-		#The value will be displayed in the status bar, in a comma separated list of all status values, ordered by key.
-		if self.is_clean:
-			self.view.set_status("info", self.my_repo.branch + ": Clean")
-		else:
-			self.view.set_status("info", self.my_repo.branch + ": Dirty")
+		if self.my_repo:
+			# Clears the named status.
+			self.view.erase_status("info")
+			#The value will be displayed in the status bar, in a comma separated list of all status values, ordered by key.
+			if self.is_clean:
+				self.view.set_status("info", self.my_repo.branch + ": Clean")
+			else:
+				self.view.set_status("info", self.my_repo.branch + ": Dirty")
 
 
 class SeeStatusCommand(sublime_plugin.WindowCommand):
 	# shortcuts
 	def run(self):
 		my_repo = get_repo()
-		git_status_info = my_repo.get_git_status()
-		msg = status_manipulate(git_status_info)[0]
-		sublime.message_dialog(msg)
+		if my_repo:
+			git_status_info = my_repo.get_git_status()
+			msg = status_manipulate(git_status_info)[0]
+			sublime.message_dialog(msg)
+		else:
+			sublime.message_dialog(
+				"GitStatus failed to load because this is not a git project!")
 
 
 class StatusBarHandler(sublime_plugin.EventListener):
@@ -80,13 +85,14 @@ def plugin_loaded():
 	# Show initital status
 	view = sublime.active_window().active_view()
 	my_repo = get_repo()
-	is_clean = status_manipulate(my_repo.get_git_status())[1]
+	if my_repo:
+		is_clean = status_manipulate(my_repo.get_git_status())[1]
 
-	# Clears the named status.
-	view.erase_status("info")
+		# Clears the named status.
+		view.erase_status("info")
 
-	#The value will be displayed in the status bar, in a comma separated list of all status values, ordered by key.
-	if is_clean:
-		view.set_status("info", my_repo.branch + ": Clean")
-	else:
-		view.set_status("info", my_repo.branch + ": Dirty")
+		#The value will be displayed in the status bar, in a comma separated list of all status values, ordered by key.
+		if is_clean:
+			view.set_status("info", my_repo.branch + ": Clean")
+		else:
+			view.set_status("info", my_repo.branch + ": Dirty")
